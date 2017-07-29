@@ -31,8 +31,44 @@ class PokemonDetailVC: UIViewController {
         super.viewDidLoad()
         
         nameLbl.text = pokemon.name.capitalized
+        let img = UIImage(named: "\(pokemon.pokedexId)")
+        
+        mainImg.image = img
+        currentEvoImg.image = img
+        pokedexLbl.text = "\(pokemon.pokedexId)"
+
+        
+        pokemon.downloadPokemonDetail {
+            //whatever we write will only be called after the network call is complete using this function which was created in the class and in the constants file using typealias
+            
+
+            self.updateUI()
+            
+        }
+        
 
         // Do any additional setup after loading the view.
+    }
+    
+    
+    func updateUI() {
+        attackLbl.text = pokemon.attack
+        defenseLbl.text = pokemon.defense
+        heightLbl.text = pokemon.height
+        weightLbl.text = pokemon.weight
+        typeLbl.text = pokemon.type
+        descriptionLbl.text = pokemon.description
+        
+        if pokemon.nextEvolutionID == "" {
+            evoLbl.text = "No Evolutions"
+            nextEvoImg.isHidden = true
+        } else {
+            nextEvoImg.isHidden = false
+            nextEvoImg.image = UIImage(named: pokemon.nextEvolutionID)
+            let str = "Next Evolution: \(pokemon.nextEvolutionName)\(pokemon.nextEvolutionLvl)"
+            evoLbl.text = str
+        }
+        
     }
 
 
